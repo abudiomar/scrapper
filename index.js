@@ -16,7 +16,7 @@ async function checkAppointmentUpdates(account) {
   try {
     // Log in to the website
     const loginResponse = await axios.post(
-      "https://ais.usvisa-info.com/en-us/niv/users/sign_in",
+      "https://ais.usvisa-info.com/en-et/niv/users/sign_in",
       {
         user: {
           login: account.username,
@@ -29,7 +29,7 @@ async function checkAppointmentUpdates(account) {
 
     // Make a GET request to the appointment page
     const appointmentResponse = await axios.get(
-      "https://ais.usvisa-info.com/en-us/niv/schedule/32514956/appointment/dates",
+      "https://ais.usvisa-info.com/en-et/niv/schedule/32514956/appointment/dates",
       {
         headers: {
           Cookie: cookies,
