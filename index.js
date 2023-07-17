@@ -1,71 +1,83 @@
-const puppeteer = require("puppeteer");
+const axios = require("axios");
+const cheerio = require("cheerio");
+const async = require("async");
 
+// Define account credentials
 const accounts = [
-  "account1@gmail.com",
-  "account2@gmail.com",
-  "account3@gmail.com",
-  "account4@gmail.com",
-  "account5@gmail.com",
+  { username: "account1", password: "password1" },
+  { username: "account2", password: "password2" },
+  { username: "account3", password: "password3" },
+  { username: "account4", password: "password4" },
+  { username: "account5", password: "password5" },
 ];
-const website = "https://ais.usvisa-info.com/en-et/niv/users/sign_in";
 
-function delay(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+// Function to log in and check for appointment updates
+function checkAppointmentUpdates(account, callback) {
+  // Log in to the website
+  axios
+    .post("https://ais.usvisa-info.com/en-et/niv/users/sign_in", {
+      user: {
+        login: account.username,
+        password: account.password,
+      },
+    })
+    .then((response) => {
+      const cookies = response.headers["set-cookie"];
 
-function scrapeWebsiteSync() {
-  puppeteer
-    .launch({ headless: true }) // Change 'headless' to 'false' if you want to see the browser window
-    .then(async (browser) => {
-      const page = await browser.newPage();
-      let accountIndex = 0;
-
-      for (let i = 0; i < 2; i++) {
-        const currentAccount = accounts[accountIndex];
-
-        // Go to the login page
-        await page.goto(website);
-
-        // Fill in the login form
-        await page.type("#user_email", currentAccount);
-        await page.type("#user_password", "your_password"); // Replace 'your_password' with the actual password
-
-        // Submit the form
-        await Promise.all([
-          page.waitForNavigation(), // Wait for navigation to complete
-          page.click('button[type="submit"]'), // Click the submit button
-        ]);
-
-        // Check for appointment updates
-        const updates = await page.evaluate(() => {
-          const updateElements = document.querySelectorAll(".update"); // Assuming updates are represented by elements with the class 'update'
-          const updates = [];
-
-          for (let element of updateElements) {
-            updates.push(element.innerText);
+      // Make a GET request to the appointment page
+      axios
+        .get(
+          "https://ais.usvisa-info.com/en-et/niv/schedule/32514956/appointment/dates",
+          {
+            headers: {
+              Cookie: cookies,
+            },
           }
+        )
+        .then((response) => {
+          const $ = cheerio.load(response.data);
 
-          return updates;
+          // Extract appointment availability information
+          const availableAppointments = [];
+          $(".date.status-appointment").each((index, element) => {
+            availableAppointments.push($(element).attr("data-date"));
+          });
+
+          // Return the update
+          callback(null, {
+            account: account.username,
+            appointments: availableAppointments,
+          });
+        })
+        .catch((error) => {
+          callback(error);
         });
-
-        // Output updates, if any
-        if (updates.length > 0) {
-          console.log(`Updates for account ${currentAccount}:`, updates);
-        } else {
-          console.log(`No updates for account ${currentAccount}.`);
-        }
-
-        accountIndex = (accountIndex + 1) % accounts.length;
-
-        // Wait for 30 seconds before the next login attempt
-        await delay(30000);
-      }
-
-      await browser.close();
     })
     .catch((error) => {
-      console.error("An error occurred:", error);
+      callback(error);
     });
 }
 
-scrapeWebsiteSync();
+// Run the scraper
+async.eachSeries(
+  accounts,
+  (account, callback) => {
+    checkAppointmentUpdates(account, (error, result) => {
+      if (error) {
+        console.error(`Error for ${account.username}: ${error.message}`);
+      } else {
+        console.log(
+          `Update for ${result.account}: ${result.appointments.length} new appointments`
+        );
+      }
+      setTimeout(callback, 30000); // Wait 30 seconds before the next login
+    });
+  },
+  (error) => {
+    if (error) {
+      console.error(`Scraping encountered an error: ${error.message}`);
+    } else {
+      console.log("Scraping completed");
+    }
+  }
+);
