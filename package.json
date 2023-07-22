@@ -2,10 +2,7 @@
   "name": "webscrapper",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ysfjr1/scrapper.git"

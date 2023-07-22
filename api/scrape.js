@@ -1,5 +1,5 @@
-const { emails } = require("./email");
-const express = require("express");
+// scrape.js
+const { emails } = require("../email");
 const puppeteer = require("puppeteer");
 const delay = (milliseconds) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -7,9 +7,7 @@ const nodemailer = require("nodemailer");
 const { Bot } = require("grammy");
 const bot = new Bot("YOUR_BOT_TOKEN"); // Replace with your Telegram bot token
 
-const app = express();
-
-app.get("/scrape", async (req, res) => {
+async function start() {
   try {
     let date = new Date().toLocaleTimeString();
     console.log("start time = " + " " + date);
@@ -114,12 +112,10 @@ app.get("/scrape", async (req, res) => {
     }
 
     console.log("Scraping completed");
-
-    res.status(200).send("Scraping completed"); // Send a response indicating the function completed successfully
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error"); // Send an error response if something goes wrong
+    throw new Error("Internal server error");
   }
-});
+}
 
-module.exports = app;
+module.exports = start;
