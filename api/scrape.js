@@ -1,27 +1,15 @@
-// scrape.js
 const { emails } = require("../email");
-const chromium = require("chromium");
-const puppeteer = require("puppeteer-core");
-const delay = (milliseconds) =>
-  new Promise((resolve) => setTimeout(resolve, milliseconds));
-const nodemailer = require("nodemailer");
-const { Bot } = require("grammy");
-const bot = new Bot("YOUR_BOT_TOKEN"); // Replace with your Telegram bot token
+const { launchBrowser } = require("./puppeteerHelper");
+const { createTransporter } = require("./nodemailerHelper");
 
 async function start() {
   try {
-    const browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath,
-      args: chromium.args,
-      headless: chromium.headless,
-    });
+    const browser = await launchBrowser();
 
     let date = new Date().toLocaleTimeString();
-    console.log("start time = " + " " + date);
+    console.log("start time =", date);
 
     for (let i = 0; i < emails.length; i++) {
-      // await delay(60000)
-
       const page = await browser.newPage();
 
       await page.setDefaultNavigationTimeout(0);
@@ -79,13 +67,7 @@ async function start() {
       const regex1 = new RegExp("August");
 
       if (regex.test(slotDate) || regex1.test(slotDate)) {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: "",
-            pass: "",
-          },
-        });
+        const transporter = createTransporter();
 
         transporter.verify(function (error, success) {
           if (error) {
@@ -112,9 +94,10 @@ async function start() {
         // })
       }
 
-      await browser.close();
+      await page.close();
     }
 
+    await browser.close();
     console.log("Scraping completed");
   } catch (error) {
     console.error(error);
