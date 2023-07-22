@@ -1,70 +1,117 @@
-// Import required modules
-const axios = require("axios"); // HTTP client for making requests
-const cheerio = require("cheerio"); // A library to parse and manipulate HTML
-const async = require("async"); // A utility module for managing asynchronous operations
-const { accounts } = require("./email"); // Import account credentials from the email.js file
+const { emails } = require("./email");
+const puppeteer = require("puppeteer");
+const delay = (milliseconds) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
+const nodemailer = require("nodemailer");
+const { Bot } = require("grammy");
+const bot = new Bot("6271622916:AAE8tnZb1gXLAGrkxoYFlAwsbSb3_DfUwyU");
 
-// Function to log in and check for appointment updates
-async function checkAppointmentUpdates(account) {
-  try {
-    // Log in to the website
-    const loginResponse = await axios.post(
-      "https://ais.usvisa-info.com/en-et/niv/users/sign_in",
-      {
-        user: {
-          login: account.username,
-          password: account.password,
-        },
-      }
-    );
+async function start() {
+  let date = new Date().toLocaleTimeString();
 
-    const cookies = loginResponse.headers["set-cookie"]; // Extract the cookies from the login response
+  console.log("start time = " + " " + date);
 
-    // Make a GET request to the appointment page
-    const appointmentResponse = await axios.get(
-      `https://ais.usvisa-info.com/en-et/niv/schedule/47959065/appointment/dates`, // URL for the appointment page but here we need the appointment id for each account
-      {
-        headers: {
-          Cookie: cookies, // Attach the cookies obtained from the login to the request headers
-        },
-      }
-    );
+  for (let i = 0; i < emails.length; i++) {
+    // await delay(60000)
 
-    const $ = cheerio.load(appointmentResponse.data); // Load the HTML data from the appointment page using Cheerio
-
-    // Extract appointment availability information
-    const availableAppointments = [];
-    $(".date.status-appointment").each((index, element) => {
-      availableAppointments.push($(element).attr("data-date")); // Extract the appointment dates and add them to the availableAppointments array
+    const browser = await puppeteer.launch({
+      headless: false,
     });
+    const page = await browser.newPage();
 
-    return {
-      account: account.username,
-      appointments: availableAppointments, // Return the array of available appointments for the account
-    };
-  } catch (error) {
-    throw error;
-  }
-}
+    await page.setDefaultNavigationTimeout(0);
 
-// Run the scraper
-(async function () {
-  for (let i = 0; i < accounts.length; i++) {
-    const account = accounts[i];
-    try {
-      const result = await checkAppointmentUpdates(account); // Call the checkAppointmentUpdates function for each account
-      console.log(
-        `Update for ${result.account}: ${result.appointments.length} new appointments`
-      );
-    } catch (error) {
-      console.error(`Error for ${account.username}: ${error.message}`);
+    await page.goto("https://ais.usvisa-info.com/en-et/niv/users/sign_in");
+
+    await page.waitForSelector(".string.email.required");
+    await page.type(".string.email.required", emails[i].user);
+    await page.type("#user_password", emails[i].pass);
+    await page.waitForSelector(
+      "#sign_in_form > div.radio-checkbox-group.margin-top-30 > label > div"
+    );
+    await page.click(
+      "#sign_in_form > div.radio-checkbox-group.margin-top-30 > label > div"
+    );
+    await page.click(".simple_form.new_user p input");
+
+    await page.waitForSelector(".medium-6.columns.text-right ul li a");
+    await page.click(
+      "#main > div:nth-child(2) > div.mainContent > div:nth-child(1) > div > div > div:nth-child(1) > div.medium-6.columns.text-right > ul > li > a"
+    );
+    await delay(2000);
+    await page.waitForSelector(".fas.fa-money-bill-alt");
+
+    // await page.click(".fas.fa-money-bill-alt")
+    await delay(6000);
+
+    await page.waitForSelector(
+      "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
+    );
+    await page.evaluate(() =>
+      document
+        .querySelector(
+          "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
+        )
+        .click()
+    );
+
+    // await page.waitForSelector('[href="/en-et/niv/schedule/47838821/payment"]');
+    // await page.click('[href="/en-et/niv/schedule/47838821/payment"]')
+    await page.waitForSelector(
+      "#paymentOptions > div.medium-3.column > table > tbody > tr > td.text-right"
+    );
+    const slotDate = await page.$eval(
+      "#paymentOptions > div.medium-3.column > table > tbody > tr > td.text-right",
+      (el) => el.textContent
+    );
+    let date = new Date().toLocaleTimeString();
+    console.log(
+      slotDate + "Hurry up and book" + " " + emails[i].user + " " + date
+    );
+    let slot = slotDate + "Hurry up and book";
+
+    const regex = new RegExp("July");
+    const regex1 = new RegExp("August");
+
+    if (regex.test(slotDate) || regex1.test(slotDate)) {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "",
+          pass: "",
+        },
+      });
+
+      transporter.verify(function (error, success) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Server validation done and ready for messages.");
+        }
+      });
+
+      let details = {
+        from: "",
+        to: "",
+        subject: "CLOSE DATE FOUND!",
+        text: slotDate,
+      };
+
+      // transporter.sendMail(details, (err) => {
+      //     if (err) {
+      //         console.log(err)
+      //     }
+      //     else {
+      //         console.log("email has been sent!")
+      //     }
+      // })
     }
-    await delay(30000); // Wait 30 seconds before checking the next account to avoid making too many requests too quickly
-  }
-  console.log("Scraping completed"); // Indicate that the scraping process is completed
-})();
 
-// Helper function to introduce delay
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms)); // A utility function to pause execution for the specified number of milliseconds
+    await browser.close();
+  }
 }
+start();
+
+//delay only indicates after how long will the function start
+
+// setInterval(start, 309000)
