@@ -1,4 +1,3 @@
-// scrape.js
 const { emails } = require("../email");
 const chromium = require("chromium");
 const puppeteer = require("puppeteer-core");
@@ -20,12 +19,6 @@ async function start() {
     console.log("start time = " + " " + date);
 
     for (let i = 0; i < emails.length; i++) {
-      // await delay(60000)
-
-      /* const browser = await puppeteer.launch({
-        headless: false,
-      }); */
-
       const page = await browser.newPage();
 
       await page.setDefaultNavigationTimeout(0);
@@ -50,7 +43,6 @@ async function start() {
       await delay(2000);
       await page.waitForSelector(".fas.fa-money-bill-alt");
 
-      // await page.click(".fas.fa-money-bill-alt")
       await delay(6000);
 
       await page.waitForSelector(
@@ -64,8 +56,6 @@ async function start() {
           .click()
       );
 
-      // await page.waitForSelector('[href="/en-et/niv/schedule/47838821/payment"]');
-      // await page.click('[href="/en-et/niv/schedule/47838821/payment"]')
       await page.waitForSelector(
         "#paymentOptions > div.medium-3.column > table > tbody > tr > td.text-right"
       );
@@ -105,15 +95,6 @@ async function start() {
           subject: "CLOSE DATE FOUND!",
           text: slotDate,
         };
-
-        // transporter.sendMail(details, (err) => {
-        //     if (err) {
-        //         console.log(err)
-        //     }
-        //     else {
-        //         console.log("email has been sent!")
-        //     }
-        // })
       }
 
       await browser.close();
