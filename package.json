@@ -1,0 +1,26 @@
+{
+  "name": "webscrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ysfjr1/scrapper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ysfjr1/scrapper/issues"
+  },
+  "homepage": "https://github.com/ysfjr1/scrapper#readme",
+  "dependencies": {
+    "async": "^3.2.4",
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
+    "nodemon": "^3.0.1"
+  }
+}

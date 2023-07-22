@@ -1,15 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const async = require("async");
-
-// Define account credentials
-const accounts = [
-  { username: "account1", password: "password1" },
-  { username: "account2", password: "password2" },
-  { username: "account3", password: "password3" },
-  { username: "account4", password: "password4" },
-  { username: "account5", password: "password5" },
-];
+const { accounts } = require("./email");
 
 // Function to log in and check for appointment updates
 async function checkAppointmentUpdates(account) {
@@ -29,7 +21,7 @@ async function checkAppointmentUpdates(account) {
 
     // Make a GET request to the appointment page
     const appointmentResponse = await axios.get(
-      "https://ais.usvisa-info.com/en-et/niv/schedule/32514956/appointment/dates",
+      `https://ais.usvisa-info.com/en-et/niv/schedule/47959065/appointment/dates`,
       {
         headers: {
           Cookie: cookies,
