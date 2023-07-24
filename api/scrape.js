@@ -13,7 +13,7 @@ async function start() {
   try {
     for (let i = 0; i < emails.length; i++) {
       const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
       });
 
       const page = await browser.newPage();
