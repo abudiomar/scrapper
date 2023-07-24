@@ -1,5 +1,4 @@
 const { emails } = require("../email");
-// const { launchBrowser } = require("./puppeteerHelper");
 const puppeteer = require("puppeteer");
 const { createTransporter } = require("./nodemailerHelper");
 const { Bot } = require("grammy");
@@ -13,11 +12,9 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 
 async function start() {
   try {
-    // const browser = await launchBrowser();
-
     for (let i = 0; i < emails.length; i++) {
       const browser = await puppeteer.launch({
-        headless: "new",
+        headless: false,
       });
 
       const page = await browser.newPage();
@@ -27,8 +24,8 @@ async function start() {
       await page.goto("https://ais.usvisa-info.com/en-et/niv/users/sign_in");
 
       await page.waitForSelector(".string.email.required");
-      await page.type(".string.email.required", emails[i].username);
-      await page.type("#user_password", emails[i].password);
+      await page.type(".string.email.required", "enatschool1@gmail.com");
+      await page.type("#user_password", "Muazmusa@123");
       await page.waitForSelector(
         "#sign_in_form > div.radio-checkbox-group.margin-top-30 > label > div"
       );
