@@ -1,6 +1,5 @@
 const { emails } = require("../email");
 const puppeteer = require("puppeteer");
-const { createTransporter } = require("./nodemailerHelper");
 const { Bot } = require("grammy");
 require("dotenv").config();
 
