@@ -12,7 +12,7 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 async function start() {
   try {
     for (let i = 0; i < emails.length; i++) {
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch(); //
 
       const page = await browser.newPage();
 
