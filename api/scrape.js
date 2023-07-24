@@ -1,4 +1,5 @@
 const { emails } = require("../email");
+// const { launchBrowser } = require("./puppeteerHelper");
 const puppeteer = require("puppeteer");
 const { createTransporter } = require("./nodemailerHelper");
 const { Bot } = require("grammy");
@@ -12,9 +13,11 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 
 async function start() {
   try {
+    // const browser = await launchBrowser();
+
     for (let i = 0; i < emails.length; i++) {
       const browser = await puppeteer.launch({
-        headless: false,
+        headless: "new",
       });
 
       const page = await browser.newPage();
