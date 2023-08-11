@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "nodemon index.js"
+    "test": "test"
   },
   "repository": {
     "type": "git",
@@ -17,16 +17,8 @@
   },
   "homepage": "https://github.com/ysfjr1/scrapper#readme",
   "dependencies": {
-    "async": "^3.2.4",
-    "axios": "^1.4.0",
-    "cheerio": "^1.0.0-rc.12",
-    "chromium": "^3.0.3",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
     "grammy": "^1.17.2",
-    "node-cron": "^3.0.2",
-    "nodemailer": "^6.9.4",
-    "nodemon": "^3.0.1",
     "puppeteer": "^20.9.0"
   }
 }
