@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ysfjr1/scrapper#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
+    "exceljs": "^4.3.0",
     "grammy": "^1.17.2",
     "puppeteer": "^20.9.0"
   }

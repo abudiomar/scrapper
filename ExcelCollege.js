@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
+const ExcelJS = require("exceljs");
 
 async function scrapeColleges() {
   try {
@@ -10,7 +11,22 @@ async function scrapeColleges() {
     let totalMinGpa = 0;
     let numScholarships = 0;
 
-    const browser = await puppeteer.launch(); // Launch the browser
+    const browser = await puppeteer.launch();
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Colleges");
+
+    worksheet.addRow([
+      "Name",
+      "Type",
+      "Enrollment",
+      "Tuition and Fees",
+      "Total Cost In-State On-Campus",
+      "Total Cost Out-State On-Campus",
+      "Degrees",
+      "Majors",
+      "Average Min GPA",
+    ]);
 
     for (const college of colleges) {
       try {
@@ -131,18 +147,27 @@ async function scrapeColleges() {
         };
 
         newCollegesData.push(newCollegeInfo);
+
+        worksheet.addRow([
+          newCollegeInfo.name,
+          newCollegeInfo.type,
+          newCollegeInfo.enrollment,
+          newCollegeInfo.tuitionAndFees,
+          newCollegeInfo.totalCostInStateOnCampus,
+          newCollegeInfo.totalCostOutStateOnCampus,
+          newCollegeInfo.degrees.join(", "),
+          newCollegeInfo.majors.join(", "),
+          newCollegeInfo.MinGPA,
+        ]);
       } catch (error) {
         console.error(`Error scraping ${college.name}: ${error.message}`);
       }
     }
 
-    await browser.close(); // Close the browser
+    await browser.close();
 
-    fs.writeFileSync(
-      "NewColleges.json",
-      JSON.stringify(newCollegesData, null, 2)
-    );
-    console.log("NewColleges.json created successfully.");
+    await workbook.xlsx.writeFile("CollegesData.xlsx");
+    console.log("CollegesData.xlsx created successfully.");
   } catch (error) {
     console.error("Error reading colleges.json:", error.message);
   }
