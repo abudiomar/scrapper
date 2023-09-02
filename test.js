@@ -41,10 +41,10 @@ async function start() {
       await page.click(
         "#main > div:nth-child(2) > div.mainContent > div:nth-child(1) > div > div > div:nth-child(1) > div.medium-6.columns.text-right > ul > li > a"
       );
-      await delay(2000);
+      
       await page.waitForSelector(".fas.fa-money-bill-alt");
 
-      await delay(6000);
+     
 
       await page.waitForSelector(
         "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
