@@ -13,6 +13,8 @@ async function start() {
   try {
     const browser = await puppeteer.launch({
       headless: true,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+      args: ["--no-sandbox"],
     });
 
     for (let i = 0; i < emails.length; i++) {

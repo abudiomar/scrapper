@@ -10,13 +10,14 @@ const delay = (milliseconds) =>
 const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 
 async function start() {
+  let date = new Date().toLocaleTimeString();
 
-  let date = new Date().toLocaleTimeString()
-
-    console.log("start time = " + " " + date)
+  console.log("start time = " + " " + date);
   try {
     const browser = await puppeteer.launch({
       headless: true,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+      args: ["--no-sandbox"],
     });
 
     for (let i = 0; i < emails.length; i++) {
@@ -41,10 +42,8 @@ async function start() {
       await page.click(
         "#main > div:nth-child(2) > div.mainContent > div:nth-child(1) > div > div > div:nth-child(1) > div.medium-6.columns.text-right > ul > li > a"
       );
-      
-      await page.waitForSelector(".fas.fa-money-bill-alt");
 
-     
+      await page.waitForSelector(".fas.fa-money-bill-alt");
 
       await page.waitForSelector(
         "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
@@ -67,8 +66,8 @@ async function start() {
 
       let slot = slotDate + "Hurry up and book";
       // await bot.api.sendMessage(CHATID, slot);
-      let date = new Date().toLocaleTimeString()
-      console.log(slot + date)
+      let date = new Date().toLocaleTimeString();
+      console.log(slot + date);
 
       await page.close();
     }
