@@ -16,7 +16,6 @@ async function start() {
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ["--no-sandbox"],
     });
-    //
 
     for (let i = 0; i < emails.length; i++) {
       const page = await browser.newPage();
@@ -40,10 +39,8 @@ async function start() {
       await page.click(
         "#main > div:nth-child(2) > div.mainContent > div:nth-child(1) > div > div > div:nth-child(1) > div.medium-6.columns.text-right > ul > li > a"
       );
-      await delay(2000);
-      await page.waitForSelector(".fas.fa-money-bill-alt");
 
-      await delay(6000);
+      await page.waitForSelector(".fas.fa-money-bill-alt");
 
       await page.waitForSelector(
         "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
@@ -65,7 +62,14 @@ async function start() {
       );
 
       let slot = slotDate + "Hurry up and book";
-      await bot.api.sendMessage(CHATID, slot);
+      let date = new Date().toLocaleTimeString();
+      await delay(53000)
+
+      const regex = new RegExp("September")
+
+        if (regex.test(slotDate)) {
+            await bot.api.sendMessage(CHATID, slot);
+        }
 
       await page.close();
     }
