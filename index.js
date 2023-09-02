@@ -16,6 +16,7 @@ async function start() {
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ["--no-sandbox"],
     });
+    //
 
     for (let i = 0; i < emails.length; i++) {
       const page = await browser.newPage();
