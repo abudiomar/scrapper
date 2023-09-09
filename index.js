@@ -1,7 +1,8 @@
 const { emails } = require("./email");
 const puppeteer = require("puppeteer");
 const { Bot } = require("grammy");
-require("dotenv").config();
+const path = require('path');
+require("dotenv").config({ path: path.resolve(__dirname, '.env') });
 
 const bot = new Bot(`${process.env.TELEGRAM_BOT_TOKEN}`);
 const delay = (milliseconds) =>
@@ -13,8 +14,8 @@ async function start() {
   try {
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-      args: ["--no-sandbox"],
+      /* executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+      args: ["--no-sandbox"], */
     });
 
     for (let i = 0; i < emails.length; i++) {
@@ -63,14 +64,15 @@ async function start() {
 
       let slot = slotDate + "Hurry up and book";
       let date = new Date().toLocaleTimeString();
-      await delay(53000)
 
-      const regex = new RegExp("September")
+      const regex = new RegExp("September");
 
-        if (regex.test(slotDate)) {
-            await bot.api.sendMessage(CHATID, slot);
-        }
+      if (regex.test(slotDate)) {
+        await bot.api.sendMessage(CHATID, slot);
+      }
+      // await bot.api.sendMessage(CHATID, slot);
 
+      await delay(53000);
       await page.close();
     }
 
