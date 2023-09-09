@@ -70,9 +70,9 @@ async function start() {
       if (regex.test(slotDate)) {
         await bot.api.sendMessage(CHATID, slot);
       }
-      // await bot.api.sendMessage(CHATID, slot);
+       //await bot.api.sendMessage(CHATID, slot);
 
-      await delay(53000);
+      await delay(120000);
       await page.close();
     }
 
