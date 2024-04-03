@@ -14,8 +14,8 @@ async function start() {
   try {
     const browser = await puppeteer.launch({
       headless: true,
-      /* executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-      args: ["--no-sandbox"], */
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+      args: ["--no-sandbox"],
     });
 
     for (let i = 0; i < emails.length; i++) {
@@ -71,7 +71,6 @@ async function start() {
         await bot.api.sendMessage(CHATID, slot);
       }
        //await bot.api.sendMessage(CHATID, slot);
-
       await delay(60000);
       await page.close();
     }
