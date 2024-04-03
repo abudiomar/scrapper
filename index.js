@@ -65,14 +65,14 @@ async function start() {
       let slot = slotDate + "Hurry up and book";
       let date = new Date().toLocaleTimeString();
 
-      const regex = new RegExp("September");
+      const regex = new RegExp("May");
 
       if (regex.test(slotDate)) {
         await bot.api.sendMessage(CHATID, slot);
       }
-      // await bot.api.sendMessage(CHATID, slot);
+       //await bot.api.sendMessage(CHATID, slot);
 
-      await delay(53000);
+      await delay(60000);
       await page.close();
     }
 
