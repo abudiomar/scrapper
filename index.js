@@ -65,7 +65,7 @@ async function start() {
       let slot = slotDate + "Hurry up and book";
       let date = new Date().toLocaleTimeString();
 
-      const regex = new RegExp("May");
+      const regex = new RegExp("September");
 
       if (regex.test(slotDate)) {
         await bot.api.sendMessage(CHATID, slot);
