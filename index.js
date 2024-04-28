@@ -62,7 +62,7 @@ async function start() {
         (el) => el.textContent
       );
 
-      let slot = slotDate + "Hurry up and book";
+      let slot = slotDate + "Hurry up and book!!";
       let date = new Date().toLocaleTimeString();
 
       const regex = new RegExp("September");
