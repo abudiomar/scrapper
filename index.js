@@ -65,9 +65,13 @@ async function start() {
       let slot = slotDate + "Hurry up and book!!";
       let date = new Date().toLocaleTimeString();
 
-      const regex = new RegExp("September");
+      const firstDate = new RegExp("May");
+      const secondDate = new RegExp("June");
+      const thirdData = new RegExp("July");
+      const fourthDate = new RegExp("August");
+      const fifthDate = new RegExp("September");
 
-      if (regex.test(slotDate)) {
+      if (firstDate.test(slotDate) || secondDate.test(slotDate)|| thirdDate.test(slotDate)|| fourthDate.test(slotDate)|| fifthDate.test(slotDate)) {
         await bot.api.sendMessage(CHATID, slot);
       }
        //await bot.api.sendMessage(CHATID, slot);
