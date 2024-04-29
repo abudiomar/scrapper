@@ -71,7 +71,7 @@ async function start() {
       const fourthDate = new RegExp("August");
       const fifthDate = new RegExp("September");
 
-      if (firstDate.test(slotDate) || secondDate.test(slotDate)|| thirdDate.test(slotDate)|| fourthDate.test(slotDate)|| fifthDate.test(slotDate)) {
+      if (firstDate.test(slotDate) || secondDate.test(slotDate)|| thirdData.test(slotDate)|| fourthDate.test(slotDate)|| fifthDate.test(slotDate)) {
         await bot.api.sendMessage(CHATID, slot);
       }
        //await bot.api.sendMessage(CHATID, slot);
