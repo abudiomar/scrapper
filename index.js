@@ -13,7 +13,7 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 async function start() {
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ["--no-sandbox"],
     });
@@ -72,6 +72,9 @@ async function start() {
       const fifthDate = new RegExp("September");
 
       if (firstDate.test(slotDate) || secondDate.test(slotDate)|| thirdData.test(slotDate)|| fourthDate.test(slotDate)|| fifthDate.test(slotDate)) {
+        await bot.api.sendMessage("5479132399", slot);
+      }
+      if (firstDate.test(slotDate)) {
         await bot.api.sendMessage(CHATID, slot);
       }
        //await bot.api.sendMessage(CHATID, slot);
@@ -82,6 +85,7 @@ async function start() {
     await browser.close();
     console.log("Scraping completed");
   } catch (error) {
+    await bot.api.sendMessage("5479132399", error);
     console.error(error);
     throw new Error("Internal server error");
   }
