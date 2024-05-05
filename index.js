@@ -13,7 +13,7 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 async function start() {
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ["--no-sandbox"],
     });
@@ -28,15 +28,19 @@ async function start() {
       await page.waitForSelector(".string.email.required");
       await page.type(".string.email.required", emails[i].username);
       await page.type("#user_password", emails[i].password);
-      await page.waitForSelector(
-        "#sign_in_form > div.radio-checkbox-group.margin-top-30 > label > div"
-      );
+      await delay(4000);
+      // await page.waitForSelector(
+      //   "#sign_in_form > div.radio-checkbox-group.margin-top-30 > label > div"
+      // );
+
       await page.click(
         "#sign_in_form > div.radio-checkbox-group.margin-top-30 > label > div"
       );
       await page.click(".simple_form.new_user p input");
 
       await page.waitForSelector(".medium-6.columns.text-right ul li a");
+                await delay(5000);
+
       await page.click(
         "#main > div:nth-child(2) > div.mainContent > div:nth-child(1) > div > div > div:nth-child(1) > div.medium-6.columns.text-right > ul > li > a"
       );
@@ -45,7 +49,9 @@ async function start() {
 
       await page.waitForSelector(
         "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
-      );
+      );   
+          await delay(10000);
+
       await page.evaluate(() =>
         document
           .querySelector(
@@ -64,28 +70,28 @@ async function start() {
 
       let slot = slotDate + "Hurry up and book!!";
       let date = new Date().toLocaleTimeString();
+      // console.log(date,slot);
 
       const firstDate = new RegExp("May");
-      const secondDate = new RegExp("June");
-      const thirdData = new RegExp("July");
-      const fourthDate = new RegExp("August");
-      const fifthDate = new RegExp("September");
+      // const secondDate = new RegExp("June");
+      // const thirdData = new RegExp("July");
+      // const fourthDate = new RegExp("August");
+      // const fifthDate = new RegExp("September");
 
-      if (firstDate.test(slotDate) || secondDate.test(slotDate)|| thirdData.test(slotDate)|| fourthDate.test(slotDate)|| fifthDate.test(slotDate)) {
         await bot.api.sendMessage("5479132399", slot);
-      }
+   
       if (firstDate.test(slotDate)) {
         await bot.api.sendMessage(CHATID, slot);
       }
        //await bot.api.sendMessage(CHATID, slot);
-      await delay(60000);
-      await page.close();
+       await page.close();
+       await delay(60000);
     }
 
     await browser.close();
     console.log("Scraping completed");
   } catch (error) {
-    await bot.api.sendMessage("5479132399", error);
+    await bot.api.sendMessage("5479132399", error.name);
     console.error(error);
     throw new Error("Internal server error");
   }
