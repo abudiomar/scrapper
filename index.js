@@ -13,7 +13,7 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 async function start() {
   try {
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ["--no-sandbox"],
     });
