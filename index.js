@@ -1,8 +1,8 @@
 const { emails } = require("./email");
 const puppeteer = require("puppeteer");
 const { Bot } = require("grammy");
-const path = require('path');
-require("dotenv").config({ path: path.resolve(__dirname, '.env') });
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 
 const bot = new Bot(`${process.env.TELEGRAM_BOT_TOKEN}`);
 const delay = (milliseconds) =>
@@ -39,7 +39,7 @@ async function start() {
       await page.click(".simple_form.new_user p input");
 
       await page.waitForSelector(".medium-6.columns.text-right ul li a");
-                await delay(5000);
+      await delay(5000);
 
       await page.click(
         "#main > div:nth-child(2) > div.mainContent > div:nth-child(1) > div > div > div:nth-child(1) > div.medium-6.columns.text-right > ul > li > a"
@@ -49,8 +49,8 @@ async function start() {
 
       await page.waitForSelector(
         "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
-      );   
-          await delay(10000);
+      );
+      await delay(10000);
 
       await page.evaluate(() =>
         document
@@ -73,19 +73,22 @@ async function start() {
       // console.log(date,slot);
 
       const firstDate = new RegExp("May");
-      // const secondDate = new RegExp("June");
-      // const thirdData = new RegExp("July");
+      const secondDate = new RegExp("June");
+      const thirdDate = new RegExp("July");
       // const fourthDate = new RegExp("August");
       // const fifthDate = new RegExp("September");
 
-        await bot.api.sendMessage("5479132399", slot);
-   
-      if (firstDate.test(slotDate)) {
+      if (
+        firstDate.test(slotDate) ||
+        secondDate.test(slotDate) ||
+        thirdDate.test(slotDate)
+      ) {
         await bot.api.sendMessage(CHATID, slot);
+        await bot.api.sendMessage("5479132399", slot);
       }
-       //await bot.api.sendMessage(CHATID, slot);
-       await page.close();
-       await delay(60000);
+      //await bot.api.sendMessage(CHATID, slot);
+      await page.close();
+      await delay(60000);
     }
 
     await browser.close();
