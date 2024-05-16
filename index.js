@@ -86,9 +86,9 @@ async function start() {
         thirdDate.test(slotDate)
       ) {
         await bot.api.sendMessage(CHATID, slot);
-      } else {
-        await bot.api.sendMessage("5479132399", slot);
       }
+      await bot.api.sendMessage("5479132399", slot);
+
       //await bot.api.sendMessage(CHATID, slot);
       await page.close();
       await delay(60000);
