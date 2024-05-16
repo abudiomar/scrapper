@@ -11,13 +11,12 @@ const delay = (milliseconds) =>
 const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 
 async function start() {
+  const browser = await puppeteer.launch({
+    headless: false,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+    args: ["--no-sandbox"],
+  });
   try {
-    const browser = await puppeteer.launch({
-      headless: false,
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-      args: ["--no-sandbox"],
-    });
-
     for (let i = 0; i < emails.length; i++) {
       const page = await browser.newPage();
 
