@@ -13,7 +13,7 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 async function start() {
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
       args: ["--no-sandbox"],
     });
@@ -50,7 +50,7 @@ async function start() {
       await page.waitForSelector(
         "#forms > ul > li:nth-child(1) > div > div > div.medium-10.columns > p:nth-child(2) > a"
       );
-      await delay(10000);
+      await delay(5000);
 
       await page.evaluate(() =>
         document
@@ -68,7 +68,10 @@ async function start() {
         (el) => el.textContent
       );
 
-      let slot = slotDate + "Hurry up and book!!";
+      let slot =
+        slotDate +
+        " Hurry up and book!!\n" +
+        "https://ais.usvisa-info.com/en-et/niv/users/sign_in";
       let date = new Date().toLocaleTimeString();
       // console.log(date,slot);
 
@@ -84,6 +87,7 @@ async function start() {
         thirdDate.test(slotDate)
       ) {
         await bot.api.sendMessage(CHATID, slot);
+      } else {
         await bot.api.sendMessage("5479132399", slot);
       }
       //await bot.api.sendMessage(CHATID, slot);
@@ -96,6 +100,9 @@ async function start() {
   } catch (error) {
     await bot.api.sendMessage("5479132399", error.name);
     console.error(error);
+    console.log(error);
+    await browser.close();
+
     throw new Error("Internal server error");
   }
 }
