@@ -12,7 +12,7 @@ const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 
 async function start() {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     args: ["--no-sandbox"],
   });
@@ -99,7 +99,6 @@ async function start() {
   } catch (error) {
     await bot.api.sendMessage("5479132399", error.name);
     console.error(error);
-    console.log(error);
     await browser.close();
 
     throw new Error("Internal server error");
