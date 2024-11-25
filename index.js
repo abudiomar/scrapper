@@ -90,7 +90,8 @@ async function start() {
       ) {
         await bot.api.sendMessage(CHANNELID, slot);
       }
-      await bot.api.sendMessage("5479132399", slot + " " + i + 1);
+      await bot.api.sendMessage("5479132399", slot + " " + i+1);
+      await bot.api.sendMessage("414889833", slot + " " + i+1);
 
       await page.close();
       await delay(60000);
