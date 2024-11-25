@@ -72,11 +72,11 @@ async function start() {
         " Hurry up and book!!\n" +
         "https://ais.usvisa-info.com/en-et/niv/users/sign_in";
       let date = new Date().toLocaleTimeString();
-      // console.log(date,slot);
+      // console.log(date, slot);
 
-      const firstDate = new RegExp("May");
-      const secondDate = new RegExp("June");
-      const thirdDate = new RegExp("July");
+      const firstDate = new RegExp("November");
+      const secondDate = new RegExp("December");
+      const thirdDate = new RegExp("January");
       // const fourthDate = new RegExp("August");
       // const fifthDate = new RegExp("September");
 
