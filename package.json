@@ -19,6 +19,6 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "grammy": "^1.17.2",
-    "puppeteer": "^20.9.0"
+    "puppeteer": "^23.9.0"
   }
 }

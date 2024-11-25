@@ -8,21 +8,24 @@ const bot = new Bot(`${process.env.TELEGRAM_BOT_TOKEN}`);
 const delay = (milliseconds) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
 
-const CHATID = process.env.TELEGRAM_BOT_CHAT_ID;
+const MCHATID = process.env.TELEGRAM_BOT_CHAT_ID;
+const CHANNELID = process.env.TELEGRAM_CHANNEL_ID;
 
 async function start() {
-  const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-    args: ["--no-sandbox"],
-  });
+  const browser = await puppeteer.launch({});
   try {
     for (let i = 0; i < emails.length; i++) {
       const page = await browser.newPage();
 
       await page.setDefaultNavigationTimeout(0);
 
-      await page.goto("https://ais.usvisa-info.com/en-et/niv/users/sign_in");
+      await page.setUserAgent(
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36"
+      );
+
+      await page.goto("https://ais.usvisa-info.com/en-et/niv/users/sign_in", {
+        waitUntil: "networkidle2",
+      });
 
       await page.waitForSelector(".string.email.required");
       await page.type(".string.email.required", emails[i].username);
@@ -85,11 +88,10 @@ async function start() {
         secondDate.test(slotDate) ||
         thirdDate.test(slotDate)
       ) {
-        await bot.api.sendMessage(CHATID, slot);
+        await bot.api.sendMessage(CHANNELID, slot);
       }
-      await bot.api.sendMessage("5479132399", slot);
+      await bot.api.sendMessage("5479132399", slot + " " + i);
 
-      //await bot.api.sendMessage(CHATID, slot);
       await page.close();
       await delay(60000);
     }
