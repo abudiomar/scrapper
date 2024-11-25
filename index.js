@@ -12,7 +12,11 @@ const MCHATID = process.env.TELEGRAM_BOT_CHAT_ID;
 const CHANNELID = process.env.TELEGRAM_CHANNEL_ID;
 
 async function start() {
-  const browser = await puppeteer.launch({});
+  //here the options are for the server since running puppeteer without this will cause errors
+  const browser = await puppeteer.launch({
+    executablePath: '/usr/bin/chromium-browser',
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   try {
     for (let i = 0; i < emails.length; i++) {
       const page = await browser.newPage();
