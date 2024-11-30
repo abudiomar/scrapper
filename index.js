@@ -14,8 +14,8 @@ const CHANNELID = process.env.TELEGRAM_CHANNEL_ID;
 async function start() {
   //here the options are for the server since running puppeteer without this will cause errors
   const browser = await puppeteer.launch({
-    executablePath: '/usr/bin/chromium-browser',
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: "/usr/bin/chromium-browser",
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   try {
     for (let i = 0; i < emails.length; i++) {
@@ -77,6 +77,7 @@ async function start() {
       let slot =
         slotDate +
         " Hurry up and book!!\n" +
+        "F1\n" +
         "https://ais.usvisa-info.com/en-et/niv/users/sign_in";
       let date = new Date().toLocaleTimeString();
       // console.log(date, slot);
@@ -94,8 +95,8 @@ async function start() {
       ) {
         await bot.api.sendMessage(CHANNELID, slot);
       }
-      await bot.api.sendMessage("5479132399", slot + " " + (i+1));
-      await bot.api.sendMessage("414889833", slot + " " + (i+1));
+      await bot.api.sendMessage("5479132399", slot + " " + (i + 1));
+      await bot.api.sendMessage("414889833", slot + " " + (i + 1));
 
       await page.close();
       await delay(60000);

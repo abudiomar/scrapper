@@ -1,13 +1,14 @@
 module.exports = {
   emails: [
-    { username: "enatschool1@gmail.com", password: "Muazmusa@123" },
-    { username: "yishakdawit96@gmail.com", password: "Muazmusa@123" },
-    { username: "ozakbederu@gmail.com", password: "Muazmusa@123" },
-    { username: "travelmuaz99@gmail.com", password: "Muazmusa@123" },
-    { username: "semirtravelopia@gmail.com", password: "Muazmusa@123" },
-    // { username: "abdizak234@gmail.com", password: "Muazmusa@123" },
-    { username: "munibamusa22@gmail.com", password: "Muazmusa@123" },
-    { username: "haseenmusa093@gmail.com", password: "Muazmusa@123" },
+    { username: "liyabebe02@yahoo.com", password: "Semir@12345" },
+    { username: "saronegussie@yahoo.com", password: "Semir@12345" },
+    { username: "foziimohammed12@gmail.com", password: "Semir@12345" },
+    { username: "mohamedbeshir345@gmail.com", password: "Semir@12345" },
+    { username: "traveleurostep@gmail.com", password: "Semir@12345" },
+    { username: "omarabdizaki96@gmail.com", password: "Semir@12345" },
+    { username: "musababubaker2@gmail.com", password: "Semir@12345" },
+    { username: "mihretbahru@yahoo.com", password: "Semir@12345" },
+    { username: "Bisratbelay1@yahoo.com", password: "Semir@12345" },
+    { username: "Kalmulugeta1@yahoo.com", password: "Semir@12345" },
   ],
 };
-//
