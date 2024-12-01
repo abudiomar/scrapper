@@ -14,7 +14,7 @@ const CHANNELID = process.env.TELEGRAM_CHANNEL_ID;
 async function start() {
   //here the options are for the server since running puppeteer without this will cause errors
   const browser = await puppeteer.launch({
-    executablePath: "/usr/bin/chromium-browser",
+    executablePath: "/usr/bin/google-chrome",
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   try {
@@ -95,8 +95,8 @@ async function start() {
       ) {
         await bot.api.sendMessage(CHANNELID, slot);
       }
-      await bot.api.sendMessage("5479132399", slot + " " + (i + 1) + " " + "type: F1");
-      await bot.api.sendMessage("414889833", slot + " " + (i + 1) + " " + "type: F1");
+      await bot.api.sendMessage("5479132399", slot + " " + (i + 1));
+      await bot.api.sendMessage("414889833", slot + " " + (i + 1));
 
       await page.close();
       await delay(60000);
