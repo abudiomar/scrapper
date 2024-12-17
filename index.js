@@ -363,24 +363,23 @@ async function start() {
       },
       { concurrency: batchSize }
     );
+    // Final completion message with total runtime
+    const endTime = moment();
+    const completionMessage = `
+  🏁 Batch Completed
+  ━━━━━━━━━━━━━━━
+  📅 Start: ${startTime.format("h:mm:ss a")}
+  ⏰ End: ${endTime.format("h:mm:ss a")}
+  ⌛ Total Runtime: ${endTime.diff(startTime, "minutes")}m ${
+      endTime.diff(startTime, "seconds") % 60
+    }s
+  ✅ Successful emails: ${successfulEmails}/${emails.length} emails
+  ━━━━━━━━━━━━━━━`;
+
+    await bot.api.sendMessage(debugChannel, completionMessage, {
+      parse_mode: "Markdown",
+    });
   }
-
-  // Final completion message with total runtime
-  const endTime = moment();
-  const completionMessage = `
-🏁 Batch Completed
-━━━━━━━━━━━━━━━
-📅 Start: ${startTime.format("h:mm:ss a")}
-⏰ End: ${endTime.format("h:mm:ss a")}
-⌛ Total Runtime: ${endTime.diff(startTime, "minutes")}m ${
-    endTime.diff(startTime, "seconds") % 60
-  }s
-✅ Successful emails: ${successfulEmails}/${emails.length} emails
-━━━━━━━━━━━━━━━`;
-
-  await bot.api.sendMessage(debugChannel, completionMessage, {
-    parse_mode: "Markdown",
-  });
 
   await browser
     .close()
