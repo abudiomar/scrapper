@@ -26,7 +26,6 @@ async function start() {
   await bot.api.sendMessage(debugChannel, startMessage, {
     parse_mode: "Markdown",
   });
-
   const browser = await puppeteer.launch({
     headless: true,
     args: [
@@ -271,7 +270,7 @@ async function start() {
 🚨  Available Slot Found
 ━━━━━━━━━━━━━━━
 🗓️ Date: ${slotDate}
-🎯 Visa Type: *F1*
+🎯 Visa Type: *B1*
 ⏰ Found at: ${moment().format("h:mm:ss a")}
 🔗 [Book here](https://ais.usvisa-info.com/en-et/niv/users/sign_in)
 ━━━━━━━━━━━━━━━`;
@@ -282,7 +281,7 @@ async function start() {
 ━━━━━━━━━━━━━━━
 🗓️ Date: ${slotDate}
 👤 Email: \`${email.username}\`
-🎯 Type: *F1*
+🎯 Type: *B1*
 ⏰ Found at: ${moment().format("h:mm:ss a")}
 ��� [Book here](https://ais.usvisa-info.com/en-et/niv/users/sign_in)
 ━━━━━━━━━━━━━━━`;
@@ -316,7 +315,7 @@ async function start() {
 ━━━━━━━━━━━━━━━
 🗓️ Date: ${slotDate}
 👤 Email: \`${email.username}\`
-🎯 Type: *F1*
+🎯 Type: *B1*
 ⏰ Found at: ${moment().format("h:mm:ss a")}
 ⌛ Process Time: ${moment().diff(emailStartTime, "seconds")}s
 🔗 [Book here](https://ais.usvisa-info.com/en-et/niv/users/sign_in)
